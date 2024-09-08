@@ -1,8 +1,14 @@
 const express = require('express')
 const {generatorToken,verifToken} = require('../middlewares/authMiddleware')
+const users = require("../data/users")
 const router = express.Router()
 
+
 router.get('/', (req, res) => {
+    
+  if (req.session.token) {
+    res.redirect('/dashboard')
+  }else{
     const loginForm = `
     <form action="/login" method="post">
     <label for="username">Usuario:</label>
@@ -18,7 +24,7 @@ router.get('/', (req, res) => {
     `;
 
     res.send(loginForm);
-    
+  }
 })
 
 router.post('/login',(req,res) => {
@@ -66,36 +72,5 @@ router.use((req, res) =>
 
 module.exports = router
 
-const users = [
-    {
-      id: 1,
-      username: 'luis',
-      password: 'bravo',
-      name: 'Luis Carlos'
-    },
-    {
-      id: 2,
-      username: 'user2',
-      password: 'password456',
-      name: 'Jane Smith'
-    },
-    {
-      id: 3,
-      username: 'user3',
-      password: 'password789',
-      name: 'Michael Johnson'
-    },
-    {
-      id: 4,
-      username: 'user4',
-      password: 'password101',
-      name: 'Emily Brown'
-    },
-    {
-      id: 5,
-      username: 'user5',
-      password: 'password202',
-      name: 'David Williams'
-    }
-  ];
+
   
